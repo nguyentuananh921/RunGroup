@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RunGroupWebAppMVC.Models;
+using System.Linq;
 
 namespace RunGroupWebAppMVC.Data
 {
@@ -50,6 +51,16 @@ namespace RunGroupWebAppMVC.Data
                 entity.ToTable("UserTokens", schema: "Identity");
             });
             #endregion
+            #region Seed Identity Data //https://www.youtube.com/watch?v=WpymlVGek94 17:13
+            //https://learn.microsoft.com/en-us/ef/core/modeling/data-seeding
+            builder.Entity<IdentityRole>().HasData 
+            (
+                new IdentityRole() { Name="Admin", ConcurrencyStamp="1",NormalizedName="Administrator" },
+                new IdentityRole() { Name = "User", ConcurrencyStamp = "2", NormalizedName = "Normal User" }
+
+            );
+            #endregion
+
             #region Data   //https://learn.microsoft.com/en-us/ef/core/modeling/entity-types?tabs=fluent-api#table-schema
             builder.Entity<Race>(entity =>
             {
@@ -72,6 +83,12 @@ namespace RunGroupWebAppMVC.Data
                 entity.ToTable(name: "Cities", schema: "Data");
             });
             #endregion
+        }
+        public static void SeedRoles(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<IdentityRole>().HasData(
+                
+                );
         }
     }
 }

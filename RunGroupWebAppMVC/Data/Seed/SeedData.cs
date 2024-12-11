@@ -15,14 +15,7 @@ namespace RunGroupWebAppMVC.Data.Seed
         public SeedData(ApplicationDbContext context)
         {
             _context = context;            
-        }
-        //private readonly RoleManager<IdentityRole> _roleManager;
-        //private readonly UserManager<AppUser> _userManager;
-        //public SeedData(ApplicationDbContext context, RoleManager<IdentityRole> roleManager)
-        //{
-        //    _context = context;
-        //    _roleManager = roleManager;
-        //}
+        }        
         public void SeedInitialData()
         {
             SeedClub();
