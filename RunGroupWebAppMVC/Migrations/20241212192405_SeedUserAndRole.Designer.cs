@@ -12,8 +12,8 @@ using RunGroupWebAppMVC.Data;
 namespace RunGroupWebAppMVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241210155803_initial-Anhnt")]
-    partial class initialAnhnt
+    [Migration("20241212192405_SeedUserAndRole")]
+    partial class SeedUserAndRole
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,22 +50,6 @@ namespace RunGroupWebAppMVC.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("Role", "Identity");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "15fec76f-2bd5-4abc-aca9-29622e4d3fa4",
-                            ConcurrencyStamp = "1",
-                            Name = "Admin",
-                            NormalizedName = "Administrator"
-                        },
-                        new
-                        {
-                            Id = "1a5fcb90-343c-4ada-8a4a-31ffd8e29eb1",
-                            ConcurrencyStamp = "2",
-                            Name = "User",
-                            NormalizedName = "Normal User"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

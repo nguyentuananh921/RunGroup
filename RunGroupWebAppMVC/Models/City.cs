@@ -1,7 +1,10 @@
-﻿namespace RunGroupWebAppMVC.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace RunGroupWebAppMVC.Models
 {
     public class City
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string CityName { get; set; }
         public string StateCode { get; set; }
