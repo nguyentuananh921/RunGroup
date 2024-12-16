@@ -4,7 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using RunGroupWebAppMVC.Data;
 using RunGroupWebAppMVC.Data.Seed;
+using RunGroupWebAppMVC.Interfaces;
 using RunGroupWebAppMVC.Models;
+using RunGroupWebAppMVC.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +35,11 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
     .AddDefaultTokenProviders();
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
+#endregion
+
+#region Add Repository
+builder.Services.AddScoped<IClubRepository, ClubRepository>();
+builder.Services.AddScoped<IRaceRepository, RaceRepository>();
 #endregion
 
 #region register the Seed Data class
