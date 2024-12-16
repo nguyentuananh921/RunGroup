@@ -36,5 +36,28 @@ namespace RunGroupWebAppMVC.Controllers
                 return View(club);
             }
         }
+        [HttpGet]
+        public IActionResult AddOrEdit(int inputId = 0) 
+        {
+            if (inputId == 0) //Add Operation here
+            {
+                return View(new Club());
+            }
+            else //Update Operation here
+            {
+                return View(_clubRepository.GetByIdAsync(inputId));               
+                //return View(_context.Transactions.FirstOrDefault(u => u.TransactionId == inputId));
+            }
+        }
+        [HttpPost]
+        public IActionResult AddOrEdit(Club club)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(club);
+            }
+            _clubRepository.Add(club);
+            return RedirectToAction("Index");
+        }
     }
 }
