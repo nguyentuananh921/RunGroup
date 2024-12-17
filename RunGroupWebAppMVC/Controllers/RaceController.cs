@@ -1,28 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RunGroupWebAppMVC.Data;
+using RunGroupWebAppMVC.Interfaces;
 using RunGroupWebAppMVC.Models;
 
 namespace RunGroupWebAppMVC.Controllers
 {
     public class RaceController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        //private readonly ApplicationDbContext _context;
+        private readonly IRaceRepository _raceRepository;
 
-        public RaceController(ApplicationDbContext context)
+        public RaceController(IRaceRepository repository)
         {
-            _context = context;
+            _raceRepository = repository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Race> races=_context.Races.ToList();
+            //List<Race> races=_context.Races.ToList();
+            IEnumerable<Race> races= await _raceRepository.GetAll();
             return View(races);
         }
         [HttpGet]
-        public IActionResult Detail(int Id)
+        public async Task<IActionResult> Detail(int Id)
         {
-            Race race = _context.Races.Include(ad => ad.Address).FirstOrDefault(u => u.Id == Id);
+            //Race race = _context.Races.Include(ad => ad.Address).FirstOrDefault(u => u.Id == Id);
+            Race race= await _raceRepository.GetByIdAsync(Id);
             if (race == null)
             {
                 return NotFound();
@@ -31,6 +35,30 @@ namespace RunGroupWebAppMVC.Controllers
             {
                 return View(race);
             }
+        }
+
+        [HttpGet]
+        public IActionResult AddOrEdit(int inputId = 0)
+        {
+            if (inputId == 0) //Add Operation here
+            {
+                return View(new Race());
+            }
+            else //Update Operation here
+            {
+                return View(_raceRepository.GetByIdAsync(inputId));
+                //return View(_context.Transactions.FirstOrDefault(u => u.TransactionId == inputId));
+            }
+        }
+        [HttpPost]
+        public IActionResult AddOrEdit(Race race)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(race);
+            }
+            _raceRepository.Add(race);
+            return RedirectToAction("Index");
         }
     }
 }
